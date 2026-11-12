@@ -1,0 +1,8 @@
+dtp_lab:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('LAB3_DB') }}"
+      schema: "{{ env_var('LAB3_SCHEMA') }}"
+      threads: 2

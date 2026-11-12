@@ -1,0 +1,11 @@
+name: dtp_lab
+version: '1.0'
+config-version: 2
+profile: dtp_lab
+model-paths: [models]
+seed-paths: [seeds]
+test-paths: [tests]
+macro-paths: [macros]
+models:
+  dtp_lab:
+    +materialized: table

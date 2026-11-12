@@ -1,0 +1,103 @@
+name: Lab 3 ELT
+on:
+  push:
+    paths: ['lab_03/**', '.github/workflows/lab03.yml']
+  pull_request:
+    paths: ['lab_03/**', '.github/workflows/lab03.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: lab03-${{ github.ref }}
+  cancel-in-progress: false
+env:
+  LAB3_CI: '1'
+  PYTHONUTF8: '1'
+  PREFECT_SERVER_ANALYTICS_ENABLED: 'false'
+  GX_ANALYTICS_ENABLED: 'False'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: lab_03/requirements.txt
+      - run: pip install -r lab_03/requirements.txt
+      - name: Execute notebook from scratch
+        run: jupyter nbconvert --execute --to notebook --inplace 'lab_03/Лабораторная работа 3.ipynb' --ExecutePreprocessor.timeout=600
+      - name: Export only the validated snapshot
+        run: python -m lab_03.ops export --out candidate
+      - name: Check worker entrypoint
+        run: python -c "from lab_03.orchestration import scheduled_pipeline; scheduled_pipeline(ci=True, channel=None)"
+      - name: Test real HTTP publication and rollback
+        run: python -m lab_03.verify --candidate candidate --root _work/ci-verification
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lab03-candidate
+          path: candidate/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab03-test-evidence
+          path: |
+            lab_03/*.ipynb
+            _work/ci-verification/verification.json
+            _work/lab_03/sessions/*/quality*.html
+            _work/lab_03/sessions/*/dbt_last.log
+  staging:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install pandas pyarrow filelock
+      - uses: actions/download-artifact@v4
+        with:
+          name: lab03-candidate
+          path: candidate
+      - name: Deploy staging and check HTTP
+        run: python -m lab_03.ci_deploy --candidate candidate --root _work/staging --channel staging
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lab03-staging-checked
+          path: candidate/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lab03-staging-events
+          path: _work/staging/deployments.jsonl
+  production:
+    needs: staging
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment: production
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install pandas pyarrow filelock
+      - name: Require configured human review gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -c "import os; from lab_03.ops import check_review_gate; check_review_gate(os.environ['GITHUB_REPOSITORY'], os.environ['GITHUB_TOKEN'])"
+      - uses: actions/download-artifact@v4
+        with:
+          name: lab03-staging-checked
+          path: candidate
+      - name: Deploy production demonstration and check HTTP
+        run: python -m lab_03.ci_deploy --candidate candidate --root _work/production --channel production
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lab03-production-evidence
+          path: |
+            candidate/
+            _work/production/deployments.jsonl
