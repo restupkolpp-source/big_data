@@ -1,11 +1,12 @@
-# Материалы проверки
+# Результаты проверок
 
-- `dbt-lineage.jpg`: настоящий граф dbt Docs, построенный по manifest и catalog реального набора ДТП.
-- `prefect-tasks.jpg`: граф зависимостей и шесть завершённых задач ELT, три региональных subflow.
-- `prefect-worker.jpg`: успешный запуск deployment через process worker.
+- `prefect-worker.jpg` — запуск через worker.
+- `prefect-tasks.jpg` — задачи ELT и обработка регионов в Prefect.
+- `dbt-lineage.jpg` — граф зависимостей в dbt Docs.
+- `deployment-verification.json` — шесть проверок публикации, canary, отката и drift.
+- `metrics-real.txt` — запуск на данных ДТП за 2025 год.
+- `metrics-ci-local.txt` — запуск на тестовом наборе из 15 записей.
+- `quality_*.html` — отчёты Great Expectations.
 
-Локальные запуски и GitHub Actions проверяются отдельно. `deployment-verification.json` содержит шесть прошедших HTTP-проверок на реальной витрине. `metrics-real.txt` — обязательные метрики. `quality_*.html` — результаты GX до очистки и на корректных данных.
-
-`metrics-ci-local.txt` — полный локальный прогон встроенного набора (15 ДТП), без доступа к исходному датасету.
-Результаты чистого Linux-окружения и staging доступны в [Checks PR №1](https://github.com/restupkolpp-source/big_data/pull/1/checks).
-Production после merge подтверждает вручную `restupkolpp-source`; автоматическое подтверждение не выполняется.
+[GitHub Actions и staging](https://github.com/restupkolpp-source/big_data/actions/runs/43230793996) прошли.
+Production подтверждаю вручную после merge в main.
