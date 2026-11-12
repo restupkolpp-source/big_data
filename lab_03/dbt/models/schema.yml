@@ -1,0 +1,24 @@
+version: 2
+seeds:
+  - name: dim_regions
+    columns:
+      - name: reg_code
+        data_tests: [unique, not_null]
+models:
+  - name: stg_accidents
+    columns:
+      - name: accident_id
+        data_tests: [unique, not_null]
+      - name: reg_code
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_regions')
+                field: reg_code
+  - name: fact_daily
+    columns:
+      - name: day
+        data_tests: [not_null]
+      - name: reg_code
+        data_tests: [not_null]
