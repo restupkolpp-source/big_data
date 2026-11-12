@@ -1,0 +1,12 @@
+numpy>=2.1,<3
+pandas>=2.2,<3
+pyarrow>=18,<24
+matplotlib>=3.9,<4
+seaborn>=0.13,<0.14
+zstandard>=0.23,<1
+fastavro>=1.10,<2
+great-expectations>=1.3,<2
+h3>=4.2,<5
+jupyterlab>=4.3,<5
+nbclient>=0.10,<1
+hotspot-retriever @ git+https://github.com/dkozlov-code/hotspot-ai.git@180a5021b88517ae304a7782d43e53e64bdf9ab4#subdirectory=experiment/retriever

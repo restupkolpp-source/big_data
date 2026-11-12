@@ -1,2 +1,5 @@
 .venv
 _work
+data/
+**/.ipynb_checkpoints/
+**/__pycache__/
