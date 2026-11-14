@@ -1,9 +1,9 @@
 name: Lab 3 ELT
 on:
   push:
-    paths: ['lab_03/**', '.github/workflows/lab03.yml']
+    paths: ['lab_03/**', 'scripts/run_notebook.py', '.github/workflows/lab03.yml']
   pull_request:
-    paths: ['lab_03/**', '.github/workflows/lab03.yml']
+    paths: ['lab_03/**', 'scripts/run_notebook.py', '.github/workflows/lab03.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -30,11 +30,11 @@ jobs:
       - name: Execute notebook from scratch
         run: jupyter nbconvert --execute --to notebook --inplace 'lab_03/Лабораторная работа 3.ipynb' --ExecutePreprocessor.timeout=600
       - name: Export only the validated snapshot
-        run: python -m lab_03.ops export --out candidate
+        run: python scripts/run_notebook.py 3 ops export --out candidate
       - name: Check worker entrypoint
-        run: python -c "from lab_03.orchestration import scheduled_pipeline; scheduled_pipeline(ci=True, channel=None)"
+        run: python scripts/run_notebook.py 3 run --ci --no-deploy
       - name: Test real HTTP publication and rollback
-        run: python -m lab_03.verify --candidate candidate --root _work/ci-verification
+        run: python scripts/run_notebook.py 3 verify --candidate candidate --root _work/ci-verification
       - uses: actions/upload-artifact@v4
         with:
           name: lab03-candidate
@@ -64,7 +64,7 @@ jobs:
           name: lab03-candidate
           path: candidate
       - name: Deploy staging and check HTTP
-        run: python -m lab_03.ci_deploy --candidate candidate --root _work/staging --channel staging
+        run: python scripts/run_notebook.py 3 ci-deploy --candidate candidate --root _work/staging --channel staging
       - uses: actions/upload-artifact@v4
         with:
           name: lab03-staging-checked
@@ -88,13 +88,13 @@ jobs:
       - name: Require configured human review gate
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python -c "import os; from lab_03.ops import check_review_gate; check_review_gate(os.environ['GITHUB_REPOSITORY'], os.environ['GITHUB_TOKEN'])"
+        run: python scripts/run_notebook.py 3 review-gate
       - uses: actions/download-artifact@v4
         with:
           name: lab03-staging-checked
           path: candidate
       - name: Deploy production demonstration and check HTTP
-        run: python -m lab_03.ci_deploy --candidate candidate --root _work/production --channel production
+        run: python scripts/run_notebook.py 3 ci-deploy --candidate candidate --root _work/production --channel production
       - uses: actions/upload-artifact@v4
         with:
           name: lab03-production-evidence

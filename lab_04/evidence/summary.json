@@ -1,7 +1,7 @@
 {
   "model": {
     "winner": "forest",
-    "version": 6,
+    "version": 8,
     "tracking_uri": "sqlite:///C:/Users/Anton/Desktop/projects/Уник/2 курс/Современные технологии обработки больших данных/big_data/_work/lab04/mlflow.db",
     "test": {
       "auc": 0.648114232133943,
@@ -10,9 +10,9 @@
       "accuracy": 0.9506958250497017
     },
     "latency": {
-      "p50_ms": 3.1229999985953327,
-      "p95_ms": 4.1495100003885454,
-      "p99_ms": 4.4939700013128485
+      "p50_ms": 4.476299998714239,
+      "p95_ms": 6.092864999845915,
+      "p99_ms": 6.305833001679276
     },
     "privacy_budget": [
       3,
@@ -20,13 +20,13 @@
     ],
     "gate": true,
     "candidate_name": "boosting",
-    "candidate_version": 7
+    "candidate_version": 9
   },
   "http": {
-    "p50_ms": 45.96955000124581,
-    "p95_ms": 57.194670001081235,
-    "p99_ms": 109.19973300166019,
-    "throughput_rps": 82.9915120430734,
+    "p50_ms": 49.35884999940754,
+    "p95_ms": 83.84424999803726,
+    "p99_ms": 127.89163999848802,
+    "throughput_rps": 73.83753689201438,
     "canary_requests": 9,
     "shadow_requests": 200,
     "candidate_promoted": true,
@@ -43,15 +43,15 @@
       "deployments": [
         {
           "event": "canary_started",
-          "version": "7",
+          "version": "9",
           "percent": 5
         },
         {
           "event": "promoted",
-          "version": "7",
+          "version": "9",
           "pr_auc": 0.1177436479404288,
           "baseline_pr_auc": 0.11786898536825555,
-          "p95_ms": 2.883894999831682
+          "p95_ms": 2.573355001914024
         },
         {
           "event": "canary_started",
@@ -63,7 +63,7 @@
           "version": "bad-candidate",
           "pr_auc": 0.04770444763271162,
           "baseline_pr_auc": 0.1177436479404288,
-          "p95_ms": 0.030004999280208722
+          "p95_ms": 0.02250500019727042
         }
       ]
     }

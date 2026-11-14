@@ -6,6 +6,9 @@
 Для обработки использовал Prefect, DuckDB, dbt и Great Expectations. Проверил повторную
 загрузку, исправление записей, сбои на этапах обработки и откат витрины.
 
+Весь Python-код собрал в ноутбуке. SQL и конфиги dbt оставил в `dbt/`, workflow — в `.github/workflows`.
+Для CI и worker использую `scripts/run_notebook.py`: он загружает определения из ячеек без запуска опытов.
+
 ## Запуск с нуля
 
 Все команды выполняются из корня `big_data`, Python 3.13. В PowerShell:
@@ -53,15 +56,15 @@ python scripts/download_dataset.py --from 2025-01 --to 2025-12 --regions 1132,11
 $env:LAB3_DEPLOY_ROOT=(Join-Path (Get-Location) '_work/deploy')
 $env:LAB3_WORK_DIR=(Join-Path (Get-Location) '_work/lab_03')
 $env:PREFECT_API_URL='http://127.0.0.1:4203/api'
-python -m lab_03.ops ensure
-python -m lab_03.ops schedule --ci
-python -m lab_03.ops trigger
+python scripts/run_notebook.py 3 ops ensure
+python scripts/run_notebook.py 3 ops schedule --ci
+python scripts/run_notebook.py 3 ops trigger
 ```
 
 `ensure` запускает Prefect server, scheduler, process worker и HTTP-витрину.
 `schedule --ci` регистрирует deployment со встроенными данными; для реальных данных уберите `--ci`
 и предварительно задайте абсолютный `DTP_DATA_DIR`.
-Код deployment копируется в неизменяемую папку; повторная регистрация обновляет версию кода.
+Ноутбук и загрузчик deployment копируются в неизменяемую папку; повторная регистрация обновляет версию кода.
 Расписание: ежедневно в 05:00 Europe/Moscow, deadline 06:00, доступность отчёта к 07:00.
 Ручной `trigger` отключает только проверку текущего времени суток, чтобы опыт можно было провести вечером.
 Worker ограничен одним запуском для исключения конкурентной записи в DuckDB.
@@ -71,14 +74,14 @@ Prefect UI: http://127.0.0.1:4203 . HTTP: http://127.0.0.1:8033/health?channel=s
 Для публикации витрины в production:
 
 ```powershell
-python -m lab_03.ops export --out _work/candidate
-python -m lab_03.ops deploy --candidate _work/candidate --channel staging
-python -m lab_03.ops deploy --candidate _work/candidate --channel production
+python scripts/run_notebook.py 3 ops export --out _work/candidate
+python scripts/run_notebook.py 3 ops deploy --candidate _work/candidate --channel staging
+python scripts/run_notebook.py 3 ops deploy --candidate _work/candidate --channel production
 ```
 
 `/daily?channel=production` отдаёт витрину, `/metrics` — журнал релизов и бизнес-метрики.
 Службы работают фоном; закрытие терминала их не останавливает. После опыта остановите стенд командой
-`python -m lab_03.ops stop`.
+`python scripts/run_notebook.py 3 ops stop`.
 
 ## Безопасная публикация и мониторинг
 
@@ -99,7 +102,7 @@ Drift служит сигналом для анализа; автоматиче�
 Отдельное повторение тестов на подготовленном кандидате:
 
 ```powershell
-python -m lab_03.verify --candidate _work/candidate --root _work/verification-new
+python scripts/run_notebook.py 3 verify --candidate _work/candidate --root _work/verification-new
 ```
 
 ## dbt и качество

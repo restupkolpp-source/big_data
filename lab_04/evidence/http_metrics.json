@@ -1,8 +1,8 @@
 {
-  "p50_ms": 45.96955000124581,
-  "p95_ms": 57.194670001081235,
-  "p99_ms": 109.19973300166019,
-  "throughput_rps": 82.9915120430734,
+  "p50_ms": 49.35884999940754,
+  "p95_ms": 83.84424999803726,
+  "p99_ms": 127.89163999848802,
+  "throughput_rps": 73.83753689201438,
   "canary_requests": 9,
   "shadow_requests": 200,
   "candidate_promoted": true,
@@ -19,15 +19,15 @@
     "deployments": [
       {
         "event": "canary_started",
-        "version": "7",
+        "version": "9",
         "percent": 5
       },
       {
         "event": "promoted",
-        "version": "7",
+        "version": "9",
         "pr_auc": 0.1177436479404288,
         "baseline_pr_auc": 0.11786898536825555,
-        "p95_ms": 2.883894999831682
+        "p95_ms": 2.573355001914024
       },
       {
         "event": "canary_started",
@@ -39,7 +39,7 @@
         "version": "bad-candidate",
         "pr_auc": 0.04770444763271162,
         "baseline_pr_auc": 0.1177436479404288,
-        "p95_ms": 0.030004999280208722
+        "p95_ms": 0.02250500019727042
       }
     ]
   }

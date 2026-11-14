@@ -27,7 +27,7 @@
   ],
   "events": [
     {
-      "at": "2026-11-12T13:41:47.892425+00:00",
+      "at": "2026-11-14T07:12:24.849552+00:00",
       "channel": "staging",
       "status": "promoted",
       "before": "4ecc1a978e81214c1ae6eb342f93ff5377310f31886b9c7722bbbde592fefa0e",
@@ -44,7 +44,7 @@
       "drift_alert": false
     },
     {
-      "at": "2026-11-12T13:41:47.916923+00:00",
+      "at": "2026-11-14T07:12:24.890071+00:00",
       "channel": "production",
       "status": "promoted",
       "before": "4ecc1a978e81214c1ae6eb342f93ff5377310f31886b9c7722bbbde592fefa0e",
@@ -61,7 +61,7 @@
       "drift_alert": false
     },
     {
-      "at": "2026-11-12T13:41:47.958250+00:00",
+      "at": "2026-11-14T07:12:24.933824+00:00",
       "channel": "production",
       "status": "rolled_back",
       "before": "4ecc1a978e81214c1ae6eb342f93ff5377310f31886b9c7722bbbde592fefa0e",
@@ -69,7 +69,7 @@
       "error": "Injected HTTP smoke failure"
     },
     {
-      "at": "2026-11-12T13:41:47.986065+00:00",
+      "at": "2026-11-14T07:12:24.992111+00:00",
       "channel": "production",
       "status": "promoted",
       "before": "4ecc1a978e81214c1ae6eb342f93ff5377310f31886b9c7722bbbde592fefa0e",
@@ -86,7 +86,7 @@
       "drift_alert": false
     },
     {
-      "at": "2026-11-12T13:41:48.040229+00:00",
+      "at": "2026-11-14T07:12:25.051041+00:00",
       "channel": "staging",
       "status": "promoted",
       "before": "4ecc1a978e81214c1ae6eb342f93ff5377310f31886b9c7722bbbde592fefa0e",
