@@ -1,0 +1,113 @@
+{
+  "model": {
+    "winner": "forest",
+    "version": 6,
+    "tracking_uri": "sqlite:///C:/Users/Anton/Desktop/projects/Уник/2 курс/Современные технологии обработки больших данных/big_data/_work/lab04/mlflow.db",
+    "test": {
+      "auc": 0.648114232133943,
+      "pr_auc": 0.10313865766642194,
+      "f1": 0.0,
+      "accuracy": 0.9506958250497017
+    },
+    "latency": {
+      "p50_ms": 3.1229999985953327,
+      "p95_ms": 4.1495100003885454,
+      "p99_ms": 4.4939700013128485
+    },
+    "privacy_budget": [
+      3,
+      0.0
+    ],
+    "gate": true,
+    "candidate_name": "boosting",
+    "candidate_version": 7
+  },
+  "http": {
+    "p50_ms": 45.96955000124581,
+    "p95_ms": 57.194670001081235,
+    "p99_ms": 109.19973300166019,
+    "throughput_rps": 82.9915120430734,
+    "canary_requests": 9,
+    "shadow_requests": 200,
+    "candidate_promoted": true,
+    "rollback_checked": true,
+    "expected_error_cases": 4,
+    "boundaries_checked": true,
+    "load_errors": 0,
+    "load_error_rate": 0,
+    "load_errors_per_second": 0,
+    "metrics": {
+      "requests": 209,
+      "errors": 4,
+      "shadow_predictions": 200,
+      "deployments": [
+        {
+          "event": "canary_started",
+          "version": "7",
+          "percent": 5
+        },
+        {
+          "event": "promoted",
+          "version": "7",
+          "pr_auc": 0.1177436479404288,
+          "baseline_pr_auc": 0.11786898536825555,
+          "p95_ms": 2.883894999831682
+        },
+        {
+          "event": "canary_started",
+          "version": "bad-candidate",
+          "percent": 5
+        },
+        {
+          "event": "rolled_back",
+          "version": "bad-candidate",
+          "pr_auc": 0.04770444763271162,
+          "baseline_pr_auc": 0.1177436479404288,
+          "p95_ms": 0.030004999280208722
+        }
+      ]
+    }
+  },
+  "monitoring": {
+    "control_score": 0.0,
+    "injected_score": 0.5,
+    "real_score": 0.16666666666666666,
+    "accuracy_drop_injected": 0.9045911047345767,
+    "adwin_checked": true,
+    "retrain_rows": 11050,
+    "retrain_accepted": false,
+    "prediction_shift": {
+      "feature": "hour",
+      "psi": 0.01746580023670668,
+      "ks": 0.30075393159515945,
+      "missing": 0.0,
+      "out_of_range": 0
+    }
+  },
+  "sensor_warnings": [
+    {
+      "strategy": "direct",
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_per_day": 0.0,
+      "false_alarms": 0,
+      "missed_failures": 1,
+      "lead_hours": [
+        null
+      ],
+      "alarms": 0
+    },
+    {
+      "strategy": "recursive",
+      "precision": 0.0,
+      "recall": 0.0,
+      "false_per_day": 0.0,
+      "false_alarms": 0,
+      "missed_failures": 1,
+      "lead_hours": [
+        null
+      ],
+      "alarms": 0
+    }
+  ]
+}

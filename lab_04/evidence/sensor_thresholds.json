@@ -1,0 +1,9 @@
+{
+  "strategy": "direct",
+  "critical": 76.67025847400002,
+  "p_star": 0.8,
+  "k": 2,
+  "cooldown": 12,
+  "cusum_limit": 2.0,
+  "cost": 1.02
+}
